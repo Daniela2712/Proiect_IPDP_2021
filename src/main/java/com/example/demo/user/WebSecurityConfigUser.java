@@ -1,3 +1,4 @@
+
 package com.example.demo.user;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +62,8 @@ public class WebSecurityConfigUser extends WebSecurityConfigurerAdapter {
 //        .antMatchers("/new").hasAnyAuthority("ADMIN")
 //        .antMatchers("/edit/**").hasAnyAuthority("ADMIN")
 //        .antMatchers("/delete/**").hasAuthority("ADMIN")
-       // .antMatchers("/adminPage/**").access("hasRole('ADMIN')")
-      //  .antMatchers("/userPage").hasAnyAuthority("USER")
-        .antMatchers("/users").hasAnyAuthority("ADMIN")
+        .antMatchers("/userPage").hasAnyAuthority("USER")
+        .antMatchers("/adminPage").hasAnyAuthority("ADMIN")
        // .antMatchers("/users").authenticated()
         //.anyRequest().permitAll()
         .and()
@@ -81,5 +81,7 @@ public class WebSecurityConfigUser extends WebSecurityConfigurerAdapter {
 		;
 	}
 }
+
+	 
 
 	 

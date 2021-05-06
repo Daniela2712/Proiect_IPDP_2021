@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+MOVIESSSSSS
+<div>
+         <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Movie ID</th>
+                    <th>Titlu</th>
+                    <th>Gen</th>
+                    <th>An apritie</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="movie: ${listMovies}">
+                    <td th:text="${movie.id}">Movie ID</td>
+                    <td th:text="${movie.titlu}">Titlu</td>
+                    <td th:text="${movie.gen}">Gen</td>
+                    <td th:text="${movie.an_aparitie}">An apritie</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+</body>
+</html>
