@@ -29,9 +29,11 @@ public class UserController {
 	
 	
 	@GetMapping("/adminPage")
-	public String showAdminPage(HttpServletRequest request) { 
+	public String showAdminPage(Model model, HttpServletRequest request) { 
 	    Principal principal = request.getUserPrincipal();
 	    User user=userRepository.findByEmail(principal.getName());
+	    List<Movie> listMovies = movieRepository.findAll();
+	    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
         user.setEnabled(1);
         user.setFirst_name(user.getFirst_name());
         user.setLast_name(user.getLast_name());

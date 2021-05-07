@@ -46,58 +46,7 @@
             th:method="get" >
             <input type="submit" value="Movies"/>
         </form>
-        
-        <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-                <tr>                  
-                    <th>Titlu(Filme actuale >2020)</th>          
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="movie: ${listMovies2}">
-                    <td th:if="${movie.an_aparitie >= 2020}">[[${movie.titlu}]]</td>
-              
-                </tr>
-            </tbody>
-        </table>
-        
-<!--   
-th:action="@{|/dologout/${user.id}|}" 
-      To display username of a logged-in user, use the following code: -->
-<!-- <span sec:authentication="name">Username</span> -->
-<!-- To show all the roles (authorities/permissions/rights) of the current user, use the following code: -->
-<!-- 1 -->
-<!-- <span sec:authentication="principal.authorities">Roles</span> -->
-<!-- To show a section that is for only authenticated users, use the following code: -->
-
-<!-- <div sec:authorize="isAuthenticated()"> -->
-<!--     Welcome <b><span sec:authentication="name">Username</span></b> -->
-<!--     &nbsp; -->
-<!--     <i><span sec:authentication="principal.authorities">Roles</span></i> -->
-<!-- </div> -->
-<!-- To display the Logout button: -->
-
-<!-- <form th:action="@{/logout}" method="post"> -->
-<!--     <input type="submit" value="Logout" /> -->
-<!-- </form> -->
-<!-- Because only the users have role CREATOR or ADMIN can create new products, so write the following code to show the Create New Product link which is visible to only authorized users: -->
-
-<!-- <div sec:authorize="hasAnyAuthority('CREATOR', 'ADMIN')"> -->
-<!--     <a href="/new">Create New Product</a> -->
-<!-- </div> -->
-<!-- The users with role EDITOR or ADMIN can see the links to edit/update products, thus the following code: -->
-
-<!-- <div sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"> -->
-<!--     <a th:href="/@{'/edit/' + ${product.id}}">Edit</a> -->
-<!-- </div> -->
-<!-- And only ADMIN users can see the link to delete products: -->
-
-<!-- <div sec:authorize="hasAuthority('ADMIN')"> -->
-<!--     <a th:href="/@{'/delete/' + ${product.id}}">Delete</a> -->
-<!-- </div> -->
-        
-        
-        
+         
     </div>
 </div>
 </body>
