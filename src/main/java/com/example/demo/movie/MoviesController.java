@@ -2,22 +2,17 @@ package com.example.demo.movie;
 
 import java.util.List;
 import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.example.demo.user.User;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 
@@ -58,14 +53,14 @@ public class MoviesController {
 	    return "editMoviePage.html";
 	}
 	@PostMapping("/editMovie/{id}")
-	public String saveEdit(Movie movie, @PathVariable("id") Integer id, @ModelAttribute("movie")  Model model) {
-		//Optional<Movie> movie2=movieRepository.findById(id);
-		
-		 movie.setTitlu(movie.getTitlu());
-		 movie.setGen(movie.getGen());
-		 movie.setAn_aparitie(movie.getAn_aparitie());
-		 movie.setDescription(movie.getDescription());
-		// movie=movie2.get();
+	public String saveEdit(Movie movie, @RequestParam("e_titlu") String titlu, @RequestParam("e_gen") String gen,
+			@RequestParam("e_an_aparitie") Integer an_aparitie, @RequestParam("e_description") String description, @PathVariable("id") Integer id) {
+		Optional<Movie> movie2=movieRepository.findById(id);
+		movie=movie2.get();
+		 movie.setTitlu(titlu);
+		 movie.setGen(gen);
+		 movie.setAn_aparitie(an_aparitie);
+		 movie.setDescription(description);
 		 movieService.saveMovie(movie);
 		 return "redirect:/movieAdministration";
 	}

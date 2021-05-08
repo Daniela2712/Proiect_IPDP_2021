@@ -22,10 +22,10 @@
     <p th:text="${titlu}"></p>
 
 		<form th:object="${movie}" th:action="@{|/editMovie/${id}|}" th:method="post" >
-	            <input type="text" th:value="${titlu}"/>
-	            <input type="text" th:value="${gen}"/>
-	            <input type="text" th:value="${an_aparitie}"/>
-	            <input type="text" th:value="${description}"/>
+	            <input type="text" th:value="${titlu}" name="e_titlu"/>
+	            <input type="text" th:value="${gen}" name="e_gen"/>
+	            <input type="text" th:value="${an_aparitie}" name="e_an_aparitie"/>
+	            <input type="text" th:value="${description}" name="e_description"/>
            
             <input type="submit" value="Save"/>
         </form>
