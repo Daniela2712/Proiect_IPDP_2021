@@ -18,13 +18,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	 @Query("SELECT u FROM User u WHERE u.id = ?1")
 	   public Optional<User> findById(Integer id);
 	 
-//	 
-//	 	public List<User> getAllUsers();
-//
-//	  public  User findUserById(Integer id);
-//
-//	  public  User saveUser(User user);
-//
-//	    void deleteUserById(Integer id);
-//	 
+	
+	 
 }

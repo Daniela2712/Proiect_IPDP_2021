@@ -38,14 +38,24 @@
                     <td th:text="${user.email}">E-mail</td>
                     <td th:text="${user.first_name}">First Name</td>
                     <td th:text="${user.last_name}">Last Name</td>
+                    <td>
+	              		 <form th:object="${user}" th:action="@{|/deleteUser/${user.id}|}"  th:method="post" >
+	            			 <input onclick="return confirm('Are you sure?')" type="submit" value="Delete"/>
+	       				 </form>
+	       				 <form th:object="${user}" th:action="@{|/upgradeUser/${user.id}|}"  th:method="get" >
+	            			<select th:field=*{role} >
+	            				<option th:value="${user.role}" th:text="${user.role}"></option>
+    							<option th:value="User" th:text="USER"></option>
+    							<option th:value="Admin" th:text="ADMIN" ></option>
+							</select>
+							<input onclick="return confirm('Are you sure?')" type="submit" value="Save"/>
+	       				 </form>	
+              		</td>
                 </tr>
             </tbody>
         </table>
         
-       <form th:object="${movie}" th:action="@{/movies}"
-            th:method="get" >
-            <input type="submit" value="Movies"/>
-        </form>
+       
          
     </div>
 </div>

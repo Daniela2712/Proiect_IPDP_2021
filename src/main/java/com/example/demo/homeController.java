@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.movie.Movie;
+import com.example.demo.movie.MovieRepository;
 import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
 import com.example.demo.user.UserService;
@@ -22,9 +25,12 @@ public class homeController  {
 	UserRepository userRepository;
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	MovieRepository movieRepository;
 	@RequestMapping("/home")
-	public String showhomePage() {
+	public String showhomePage(Model model) {
+		List<Movie> listMovies = movieRepository.findAll();
+	    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
 		return "home.html";
 		
 	}
@@ -46,10 +52,11 @@ public class homeController  {
 	}
 	
 	@PutMapping("/dologout/{id}" )
-    public String logoutUser(User user)
+    public String logoutUser(User user, Model model)
     {
 		Optional<User> user2=userRepository.findById(user.getId());
-		
+		List<Movie> listMovies = movieRepository.findAll();
+	    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
 	        user=user2.get();
 	        user.setEnabled(0);
 	        user.setFirst_name(user.getFirst_name());
@@ -59,6 +66,6 @@ public class homeController  {
 	        user.setEmail(user.getEmail());
 	        userService.saveUser(user);
   
-        return "home.html";
+        return "redirect:/home";
     }
 }

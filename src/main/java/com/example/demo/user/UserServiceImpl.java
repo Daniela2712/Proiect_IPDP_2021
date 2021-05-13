@@ -13,38 +13,8 @@ public class UserServiceImpl implements UserService {
 	public  void saveUser(User user) {
 		user = userRepository.save(user);
 	}
-	
-//	@Autowired
-//    public UserServiceImpl(@Qualifier("userRepositoryImpl") UserRepository theuserRepository){
-//        userRepository = theuserRepository;
-//    }
-//
-// 
-//	@Override
-//    @Transactional
-//    public List<User> findAllUsers() {
-//        return userRepository.getAllUsers();
-//    }
-//
-//	@Override
-//    @Transactional
-//    public User findUserById(Integer id) {
-//        return userRepository.findUserById(id);
-//    }
-//
-//    @Override
-//    @Transactional
-//    public User saveUser(User user) {
-//        return userRepository.saveUser(user);
-//    }
-//
-//	@Override
-//    @Transactional
-//    public Integer deleteUserById(Integer id) {
-//    	userRepository.deleteUserById(id);
-//        return id;
-//    }
-//
-//
-//	
+	 public void delete(Integer id) {
+			userRepository.deleteById(id);
+			
+		}
 }

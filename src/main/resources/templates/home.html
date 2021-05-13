@@ -13,6 +13,23 @@
         <h3><a th:href="@{/register}">Register</a></h3>
         <h3><a th:href="@{/login}">Login</a></h3>
     </div>
+    <div>
+    
+      <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>                  
+                    <th>Titlu(Filme actuale >2020)</th>          
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="movie: ${listMovies}">
+                    <td th:if="${movie.an_aparitie >= 2020}">[[${movie.titlu}]]</td>
+              		
+                </tr>
+            </tbody>
+        </table>
+    
+    </div>
      
 </body>
 </html>

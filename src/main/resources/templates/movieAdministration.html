@@ -28,6 +28,7 @@
                     <th>Titlu</th> 
                     <th>Gen</th> 
                     <th>Anul aparitiei</th> 
+                    <th>Description</th> 
                            
                 </tr>
             </thead>
@@ -37,6 +38,7 @@
                     <td th:text="${movie.titlu}">Titlu</td>
                     <td th:text="${movie.gen}">Gen</td>
                     <td th:text="${movie.an_aparitie}">An apritie</td>
+                    <td th:text="${movie.description}">Description</td>
               		<td>
 	              		 <form th:object="${movie}" th:action="@{|/deleteMovie/${movie.id}|}"  th:method="post" >
 	            			 <input onclick="return confirm('Are you sure?')" type="submit" value="Delete"/>
@@ -48,6 +50,14 @@
                 </tr>
             </tbody>
         </table>
+        
+         <form th:object="${movie}" th:action="@{|/addMovie|}"  th:method="post" >
+         		Titlu <input type="text" th:value="${titlu}" name="a_titlu"/>
+	            Gen <input type="text" th:value="${gen}" name="a_gen"/>
+	           Anul aparitiei <input type="text" th:value="${an_aparitie}" name="a_an_aparitie"/>
+	           Description <input type="text" th:value="${description}" name="a_description"/>
+	            <input type="submit" value="Add"/>
+	     </form>
     </div>
 </div>
 </body>

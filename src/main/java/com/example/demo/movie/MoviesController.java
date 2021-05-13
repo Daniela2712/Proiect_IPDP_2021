@@ -64,5 +64,14 @@ public class MoviesController {
 		 movieService.saveMovie(movie);
 		 return "redirect:/movieAdministration";
 	}
-	
+	@PostMapping("/addMovie")
+	public String AddMoviePage(Movie movie,  @RequestParam("a_titlu") String titlu, @RequestParam("a_gen") String gen,
+			@RequestParam("a_an_aparitie") Integer an_aparitie, @RequestParam("a_description") String description) {
+		movie.setTitlu(titlu);
+		 movie.setGen(gen);
+		 movie.setAn_aparitie(an_aparitie);
+		 movie.setDescription(description);
+		 movieService.saveMovie(movie);
+	    return "redirect:/movieAdministration";
+	}
 }

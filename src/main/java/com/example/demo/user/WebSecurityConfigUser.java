@@ -1,5 +1,6 @@
 
 package com.example.demo.user;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @Configuration
 @EnableWebSecurity
@@ -53,7 +55,7 @@ public class WebSecurityConfigUser extends WebSecurityConfigurerAdapter {
         ;
     }
 	
- 
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {	
 		http.authorizeRequests()
@@ -70,16 +72,18 @@ public class WebSecurityConfigUser extends WebSecurityConfigurerAdapter {
         .formLogin().permitAll()
         .usernameParameter("email")
 		.passwordParameter("password")
-		//.defaultSuccessUrl("/users")
 		.successHandler(customSuccessHandler)
         .and()
         .logout()
         		.permitAll()
-        		.logoutSuccessUrl("/home")
+        		//.logoutSuccessUrl("/home")
+        		.logoutSuccessHandler((request, response, authentication) -> {
+                    response.setStatus(HttpServletResponse.SC_OK );})
         .and()
         .exceptionHandling().accessDeniedPage("/403")
 		;
 	}
+	
 }
 
 	 
