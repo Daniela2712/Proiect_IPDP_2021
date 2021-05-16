@@ -9,40 +9,48 @@
 </head>
 <body>
 <div class="container text-center">
-    <div th:each="user: ${listUsers}">
-        <form th:object="${user}" th:action="@{|/dologout/${user.id}|}"
-            th:method="put"  >
+    <div>
+        <form th:object="${user}" th:action="@{|/dologout/${#request.userPrincipal.principal.id}|}"
+            th:method="put" >
             <p>
                 Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
             </p>
-            <input type="submit" value="Sign Out" />
+            <input type="submit" value="Sign Out"/>
         </form>
     </div>
-    <div>
-        <h1>List of Users</h1>
-    </div>
-     
-    <div>
+   
+      <form th:object="${user}" th:action="@{/userAdministration}"
+            th:method="get" >
+            
+            <input type="submit" value="User Administration"/>
+        </form>
+        
+         <form th:object="${user}" th:action="@{/movieAdministration}"
+            th:method="get" >
+            
+            <input type="submit" value="Movie Administration"/>
+        </form>
+         <form th:object="${user}" th:action="@{|/profile/${#request.userPrincipal.principal.id}|}"
+            th:method="get" >
+            
+            <input type="submit" value="My Profile"/>
+        </form>
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
-                <tr>
-                    <th>User ID</th>
-                    <th>E-mail</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                <tr>                  
+                    <th>Titlu(Filme actuale >2020)</th>          
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="user: ${listUsers}">
-                    <td th:text="${user.id}">User ID</td>
-                    <td th:text="${user.email}">E-mail</td>
-                    <td th:text="${user.first_name}">First Name</td>
-                    <td th:text="${user.last_name}">Last Name</td>
+                <tr th:each="movie: ${listMovies}">
+                    <td th:if="${movie.an_aparitie >= 2020}">[[${movie.titlu}]]</td>
+              		
                 </tr>
             </tbody>
         </table>
+    <div>
+      
         
-       
 <!--   
 th:action="@{|/dologout/${user.id}|}" 
       To display username of a logged-in user, use the following code: -->

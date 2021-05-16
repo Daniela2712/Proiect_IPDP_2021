@@ -1,19 +1,45 @@
 package com.example.demo.user;
+import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 
 
 @Entity
 @Table(name = "User")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+	private String role;
+	@Column(nullable = true, length = 64)
+    private String photos;
+	//String PhotosImagePath;
+	@Transient
+    public String getPhotosImagePath() {
+        if (photos == null || id == null) return null;
+         
+        return "/user-photos/" + id + "/" + photos;
+    }
+	public String getPhotos() {
+		return photos;
+	}
+	public void setPhotos(String photos) {
+		this.photos = photos;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Integer getId() {
+		return id;
+	}
 
 	@Column(name = "first_name", nullable = false, length = 20)
 	private String first_name;
@@ -29,15 +55,19 @@ public class User {
 
 	@Column(name = "password", nullable = false, length = 64)
 	private String password;
+	
+	@Column(name = "enabled")
+	private Integer enabled;
 
-	public long getId() {
-		return id;
+	
+	public Integer getEnabled() {
+		return enabled;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
 	}
-
+	
 	public String getFirst_name() {
 		return first_name;
 	}
@@ -79,3 +109,4 @@ public class User {
 	}
 
 }
+
