@@ -1,5 +1,4 @@
 package com.example.demo.user;
-import java.util.*;
 
 import javax.persistence.*;
 
@@ -47,9 +46,6 @@ public class User {
 	@Column(name = "last_name", nullable = false, length = 20)
 	private String last_name;
 
-	@Column(name = "username", nullable = false, length = 20)
-	private String username;
-
 	@Column(name = "email", nullable = false, unique = true, length = 45)
 	private String email;
 
@@ -82,14 +78,6 @@ public class User {
 
 	public void setLast_name(String last_name) {
 		this.last_name = last_name;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getEmail() {
