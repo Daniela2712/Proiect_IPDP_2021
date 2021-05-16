@@ -13,6 +13,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 	private String role;
+	@Column(nullable = true, length = 64)
+    private String photos;
+	//String PhotosImagePath;
+	@Transient
+    public String getPhotosImagePath() {
+        if (photos == null || id == null) return null;
+         
+        return "/user-photos/" + id + "/" + photos;
+    }
+	public String getPhotos() {
+		return photos;
+	}
+	public void setPhotos(String photos) {
+		this.photos = photos;
+	}
 	public String getRole() {
 		return role;
 	}

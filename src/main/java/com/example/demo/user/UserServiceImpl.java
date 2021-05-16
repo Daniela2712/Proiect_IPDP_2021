@@ -3,7 +3,8 @@ package com.example.demo.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -17,4 +18,24 @@ public class UserServiceImpl implements UserService {
 			userRepository.deleteById(id);
 			
 		}
+	
+	@Override
+	    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
+		 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		 String encodedPassword = passwordEncoder.encode(user.getPassword());
+	        return passwordEncoder.matches(oldPassword, user.getPassword());
+	    }
+	@Override
+	public User findUserByEmail(String email) {
+		return userRepository.findByEmail(email);
+		
+	}
+
+	@Override
+    public void changeUserPassword(final User user, final String password) {
+		 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		 String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }

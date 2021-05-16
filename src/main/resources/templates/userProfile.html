@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{|/js/script.js|}"></script>
+   
 </head>
 <body>
 <div class="container text-center">
@@ -21,6 +23,18 @@
     
     <div class="card">
 			<div class="card card-body">
+			<div>
+				<form th:action="@{/users/save}" th:object="${user}" method="post" enctype="multipart/form-data">
+				    <div> 
+				   		
+					    <label>Photos: </label>
+					    <input type="file" name="image" accept="image/png, image/jpeg" />		     
+				    </div>
+				    
+				    <input type="submit" value="Save"/>
+				</form>
+				
+			</div>
 				<table class="table table-hover">
 					<thead>
 						<tr>
@@ -47,10 +61,24 @@
 	            <input type="text" th:value="${first_name}" name="e_first_name"/>
 	            <input type="text" th:value="${last_name}" name="e_last_name"/>
 	            <input type="text" th:value="${email}" name="e_email"/>
-           
-            <input type="submit" value="Save"/>
+<!--            		<input type="password"  name="e_password"/> -->
+<!--             	<input type="submit" value="Save"/> -->
         </form>
+        <div>
+  <form th:object="${user}" th:action="@{|/updatePassword|}" th:method="post">
+    <input  th:name="oldpass" type="password" />
+    <input th:name="pass" type="password" />
+    <input  th:name="passConfirm" type="password" />              
+    <span th:name="error" style="display:none">Password mismatch</span>
+                    
+   <button type="submit">Change Password</button>
+</form>
+</div>
+ 
+
+
 	</div>
 </div>
+
 </body>
 </html>
