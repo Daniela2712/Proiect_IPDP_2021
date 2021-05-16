@@ -148,7 +148,6 @@ public class UserController {
 	       SecurityContextHolder.getContext().getAuthentication().getName());
 	 
 	     if(!(password.contentEquals(passConfirm)))
-	    	 
 	    	 return "Password mismatch";
 	     
 	     else {
