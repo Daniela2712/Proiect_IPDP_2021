@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>List Users</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container text-center">
+    <div>
+        <form th:object="${user}" th:action="@{|/dologout/${#request.userPrincipal.principal.id}|}"
+            th:method="put" >
+            <p>
+                Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+            </p>
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+   
+      <form th:object="${user}" th:action="@{/userAdministration}"
+            th:method="get" >
+            
+            <input type="submit" value="User Administration"/>
+        </form>
+        
+         <form th:object="${user}" th:action="@{/movieAdministration}"
+            th:method="get" >
+            
+            <input type="submit" value="Movie Administration"/>
+        </form>
+         <form th:object="${user}" th:action="@{|/profile/${#request.userPrincipal.principal.id}|}"
+            th:method="get" >
+            
+            <input type="submit" value="My Profile"/>
+        </form>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>                  
+                    <th>Titlu(Filme actuale >2020)</th>          
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="movie: ${listMovies}">
+                    <td th:if="${movie.an_aparitie >= 2020}">[[${movie.titlu}]]</td>
+              		
+                </tr>
+            </tbody>
+        </table>
+    <div>
+      
+        
+<!--   
+th:action="@{|/dologout/${user.id}|}" 
+      To display username of a logged-in user, use the following code: -->
+<!-- <span sec:authentication="name">Username</span> -->
+<!-- To show all the roles (authorities/permissions/rights) of the current user, use the following code: -->
+<!-- 1 -->
+<!-- <span sec:authentication="principal.authorities">Roles</span> -->
+<!-- To show a section that is for only authenticated users, use the following code: -->
+
+<!-- <div sec:authorize="isAuthenticated()"> -->
+<!--     Welcome <b><span sec:authentication="name">Username</span></b> -->
+<!--     &nbsp; -->
+<!--     <i><span sec:authentication="principal.authorities">Roles</span></i> -->
+<!-- </div> -->
+<!-- To display the Logout button: -->
+
+<!-- <form th:action="@{/logout}" method="post"> -->
+<!--     <input type="submit" value="Logout" /> -->
+<!-- </form> -->
+<!-- Because only the users have role CREATOR or ADMIN can create new products, so write the following code to show the Create New Product link which is visible to only authorized users: -->
+
+<!-- <div sec:authorize="hasAnyAuthority('CREATOR', 'ADMIN')"> -->
+<!--     <a href="/new">Create New Product</a> -->
+<!-- </div> -->
+<!-- The users with role EDITOR or ADMIN can see the links to edit/update products, thus the following code: -->
+
+<!-- <div sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"> -->
+<!--     <a th:href="/@{'/edit/' + ${product.id}}">Edit</a> -->
+<!-- </div> -->
+<!-- And only ADMIN users can see the link to delete products: -->
+
+<!-- <div sec:authorize="hasAuthority('ADMIN')"> -->
+<!--     <a th:href="/@{'/delete/' + ${product.id}}">Delete</a> -->
+<!-- </div> -->
+        
+        
+        
+    </div>
+</div>
+</body>
+</html>

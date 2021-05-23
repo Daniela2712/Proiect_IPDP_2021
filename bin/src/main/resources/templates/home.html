@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>My cinema</title>
+    <link rel="stylesheet" href="css\style.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="homepage">
+        <h2>My cinema</h2>
+        <br>
+        <p>The place where we can escape<br> from reality...</p>
+        <p> ha ha ha</p>
+        <br>
+        <ul>
+  <li><a th:href="@{/login}"><button type="button" name="button">Log in</button></a></li>
+  <li><a th:href="@{/register}"><button type="button" name="button">Sign up</button></a></li>
+</ul>
+        
+    </div>
+    <div>
+    
+      <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>                  
+                    <th>Titlu(Filme actuale >2020)</th>          
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="movie: ${listMovies}">
+                    <td th:if="${movie.an_aparitie >= 2020}">[[${movie.titlu}]]</td>
+              		
+                </tr>
+            </tbody>
+        </table>
+    
+    </div>
+     
+</body>
+</html>

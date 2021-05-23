@@ -59,12 +59,9 @@ public class WebSecurityConfigUser extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {	
 		http.authorizeRequests()
 		.antMatchers("/home").permitAll()
-//        .antMatchers("/").hasAnyAuthority("USER", "ADMIN")
-//        .antMatchers("/new").hasAnyAuthority("ADMIN")
-//        .antMatchers("/edit/**").hasAnyAuthority("ADMIN")
-//        .antMatchers("/delete/**").hasAuthority("ADMIN")
         .antMatchers("/userPage").hasAnyAuthority("USER")
         .antMatchers("/adminPage").hasAnyAuthority("ADMIN")
+        .anyRequest().permitAll()
        // .antMatchers("/users").authenticated()
         //.anyRequest().permitAll()
         .and()

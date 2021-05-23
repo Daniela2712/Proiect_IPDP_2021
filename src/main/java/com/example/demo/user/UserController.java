@@ -6,11 +6,11 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -30,27 +30,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import com.example.demo.movie.Movie;
 import com.example.demo.movie.MovieRepository;
+import com.example.demo.movie.MovieService;
 
-import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-
-
 
 @Controller
 @RequestMapping("/")
@@ -65,19 +47,22 @@ public class UserController {
 	private UserService userService;
 	@Autowired 
 	private MovieRepository movieRepository;
+	@Autowired
+	MovieService movieService;
 	
 	
 	@GetMapping("/adminPage")
-	public String showAdminPage(Model model, HttpServletRequest request) { 
+	public String showAdminPage(Model map,Model model, HttpServletRequest request) { 
 	    Principal principal = request.getUserPrincipal();
 	    User user=userRepository.findByEmail(principal.getName());
 	    List<Movie> listMovies = movieRepository.findAll();
 	    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+	    List<Movie> images = movieService.getAllActiveImages();
+		map.addAttribute("images", images);
         user.setEnabled(1);
         user.setFirst_name(user.getFirst_name());
         user.setLast_name(user.getLast_name());
         user.setPassword(user.getPassword());
-        user.setUsername(user.getUsername());
         user.setEmail(user.getEmail());
         userService.saveUser(user);
 	    return "adminPage.html";
@@ -112,7 +97,6 @@ public class UserController {
 	        user.setFirst_name(user3.getFirst_name());
 	        user.setLast_name(user3.getLast_name());
 	        user.setPassword(user3.getPassword());
-	        user.setUsername(user3.getUsername());
 	        user.setEmail(user3.getEmail());
 	        userService.saveUser(user);
 		 return "redirect:/userAdministration";
@@ -159,6 +143,7 @@ public class UserController {
 	        return new RedirectView("/home", true);
 	    }
 	 //
+	 private final Logger log = LoggerFactory.getLogger(this.getClass());
 	 @ResponseBody
 	 @PostMapping("/updatePassword")
 	 //@PreAuthorize("hasRole('READ_PRIVILEGE')")
@@ -171,7 +156,6 @@ public class UserController {
 	       SecurityContextHolder.getContext().getAuthentication().getName());
 	 
 	     if(!(password.contentEquals(passConfirm)))
-	    	 
 	    	 return "Password mismatch";
 	     
 	     else {
@@ -182,5 +166,4 @@ public class UserController {
 		     return "success";
 	     }
 	 }
-	 
 }

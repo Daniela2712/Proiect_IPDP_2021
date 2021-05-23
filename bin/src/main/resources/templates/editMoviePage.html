@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>List Users</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container text-center">
+    <div>
+        <form  th:object="${user}" th:action="@{|/dologout/${#request.userPrincipal.principal.id}|}"
+            th:method="put" >
+            <p>
+                Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+            </p>
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+    <div>
+    <p th:text="${titlu}"></p>
+
+		<form th:object="${movie}" th:action="@{|/editMovie/${id}|}" th:method="post" >
+	            <input type="text" th:value="${titlu}" name="e_titlu"/>
+	            <input type="text" th:value="${gen}" name="e_gen"/>
+	            <input type="text" th:value="${an_aparitie}" name="e_an_aparitie"/>
+	            <input type="text" th:value="${description}" name="e_description"/>
+           
+            <input type="submit" value="Save"/>
+        </form>
+	</div>
+</div>
+</body>
+</html>

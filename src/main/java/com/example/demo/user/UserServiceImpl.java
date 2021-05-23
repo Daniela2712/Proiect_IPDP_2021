@@ -1,10 +1,14 @@
 package com.example.demo.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.demo.movie.Movie;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 @Service
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -22,7 +26,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
 		 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		 String encodedPassword = passwordEncoder.encode(user.getPassword());
 	        return passwordEncoder.matches(oldPassword, user.getPassword());
 	    }
 	@Override
@@ -34,8 +37,13 @@ public class UserServiceImpl implements UserService {
 	@Override
     public void changeUserPassword(final User user, final String password) {
 		 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		 String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }
+	public Optional<User> getImageProfileById(Integer id) {
+		return userRepository.findById(id);
+	}
+	public void saveImage(User profilePicture) {
+		userRepository.save(profilePicture);	
+	}
 }

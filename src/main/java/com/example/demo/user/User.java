@@ -1,5 +1,4 @@
 package com.example.demo.user;
-import java.util.*;
 
 import javax.persistence.*;
 
@@ -7,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "User")
-public class User {
+public class User{
 	@Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,17 +15,21 @@ public class User {
 	@Column(nullable = true, length = 64)
     private String photos;
 	//String PhotosImagePath;
-	@Transient
-    public String getPhotosImagePath() {
-        if (photos == null || id == null) return null;
-         
-        return "/user-photos/" + id + "/" + photos;
-    }
+	@Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] profilePicture;
+	
 	public String getPhotos() {
 		return photos;
 	}
 	public void setPhotos(String photos) {
 		this.photos = photos;
+	}
+	public byte[] getProfilePicture() {
+		return profilePicture;
+	}
+	public void setProfilePicture(byte[] profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 	public String getRole() {
 		return role;
@@ -46,9 +49,6 @@ public class User {
 
 	@Column(name = "last_name", nullable = false, length = 20)
 	private String last_name;
-
-	@Column(name = "username", nullable = false, length = 20)
-	private String username;
 
 	@Column(name = "email", nullable = false, unique = true, length = 45)
 	private String email;
@@ -82,14 +82,6 @@ public class User {
 
 	public void setLast_name(String last_name) {
 		this.last_name = last_name;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getEmail() {
