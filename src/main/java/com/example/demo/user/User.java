@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "User")
-public class User {
+public class User{
 	@Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,17 +15,21 @@ public class User {
 	@Column(nullable = true, length = 64)
     private String photos;
 	//String PhotosImagePath;
-	@Transient
-    public String getPhotosImagePath() {
-        if (photos == null || id == null) return null;
-         
-        return "/user-photos/" + id + "/" + photos;
-    }
+	@Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] profilePicture;
+	
 	public String getPhotos() {
 		return photos;
 	}
 	public void setPhotos(String photos) {
 		this.photos = photos;
+	}
+	public byte[] getProfilePicture() {
+		return profilePicture;
+	}
+	public void setProfilePicture(byte[] profilePicture) {
+		this.profilePicture = profilePicture;
 	}
 	public String getRole() {
 		return role;

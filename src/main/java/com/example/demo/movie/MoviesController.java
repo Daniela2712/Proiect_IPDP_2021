@@ -1,9 +1,21 @@
 package com.example.demo.movie;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -13,6 +25,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 
@@ -29,10 +43,11 @@ public class MoviesController {
 		
 	}
 	@GetMapping("/movieAdministration")
-	public String listUsers(Model model, HttpServletRequest request) {
+	public String listUsers(Model map, Model model, HttpServletRequest request) {
 	    List<Movie> listMovies = movieRepository.findAll();
 	    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
-	    
+	    List<Movie> images = movieService.getAllActiveImages();
+		map.addAttribute("images", images);
 	    return "movieAdministration.html";
 	}
 	
@@ -65,8 +80,8 @@ public class MoviesController {
 		 return "redirect:/movieAdministration";
 	}
 	@PostMapping("/addMovie")
-	public String AddMoviePage(Movie movie,  @RequestParam("a_titlu") String titlu, @RequestParam("a_gen") String gen,
-			@RequestParam("a_an_aparitie") Integer an_aparitie, @RequestParam("a_description") String description) {
+	public String AddMoviePage(Movie movie,  @RequestParam("title") String titlu, @RequestParam("gen") String gen,
+			@RequestParam("an_aparitie") Integer an_aparitie, @RequestParam("description") String description) {
 		movie.setTitlu(titlu);
 		 movie.setGen(gen);
 		 movie.setAn_aparitie(an_aparitie);
@@ -74,4 +89,95 @@ public class MoviesController {
 		 movieService.saveMovie(movie);
 	    return "redirect:/movieAdministration";
 	}
+
+		private String uploadFolder;
+
+		private final Logger log = LoggerFactory.getLogger(this.getClass());
+		@PostMapping("/image/saveImageDetails")
+		public String createProduct( Model model, HttpServletRequest request
+				,final @RequestParam("image") MultipartFile file,@RequestParam("title") String titlu, @RequestParam("gen") String gen,
+				@RequestParam("an_aparitie") Integer an_aparitie, @RequestParam("description") String description) {
+			try {
+				String uploadDirectory = System.getProperty("user.dir") + uploadFolder;
+				String uploadDirectory1 = request.getServletContext().getRealPath(uploadFolder);
+				log.info("uploadDirectory:: " + uploadDirectory1);
+				String fileName = file.getOriginalFilename();
+				String filePath = Paths.get(uploadDirectory1, fileName).toString();
+				log.info("FileName: " + file.getOriginalFilename());
+				if (fileName == null || fileName.contains("..")) {
+					model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
+					//return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
+					return "home.html";
+				}
+				Date createDate = new Date();
+				try {
+					File dir = new File(uploadDirectory1);
+					if (!dir.exists()) {
+						log.info("Folder Created");
+						dir.mkdirs();
+					}
+					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+					stream.write(file.getBytes());
+					stream.close();
+				} catch (Exception e) {
+					log.info("in catch");
+					e.printStackTrace();
+				}
+				byte[] imageData = file.getBytes();
+				Movie imageGallery = new Movie();
+				imageGallery.setTitlu(titlu);
+				imageGallery.setGen(gen);
+				imageGallery.setAn_aparitie(an_aparitie);
+				imageGallery.setDescription(description);
+				imageGallery.setImage(imageData);
+				movieService.saveImage(imageGallery);
+				log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
+				return "redirect:/movieAdministration";
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.info("Exception: " + e);
+				//return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				return "home.html";
+			}
+		}
+		
+		@GetMapping("/image/display/{id}")
+		@ResponseBody
+		void showImage(@PathVariable("id") Integer id, HttpServletResponse response, Optional<Movie> imageGallery)
+				throws ServletException, IOException {
+			log.info("Id :: " + id);
+			imageGallery = movieService.getImageById(id);
+			response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+			response.getOutputStream().write(imageGallery.get().getImage());
+			response.getOutputStream().close();
+		}
+
+		@GetMapping("/image/imageDetails")
+		String showProductDetails(@RequestParam("id") Integer id, Optional<Movie> imageGallery, Model model) {
+			try {
+				log.info("Id :: " + id);
+				if (id != 0) {
+					imageGallery = movieService.getImageById(id);
+				
+					log.info("products :: " + imageGallery);
+					if (imageGallery.isPresent()) {
+						model.addAttribute("id", imageGallery.get().getId());
+						model.addAttribute("description", imageGallery.get().getDescription());
+						return "imagedetails";
+					}
+					return "redirect:/home";
+				}
+			return "redirect:/home";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "redirect:/home";
+			}	
+		}
+
+		@GetMapping("/image/show")
+		String show(Model map) {
+			List<Movie> images = movieService.getAllActiveImages();
+			map.addAttribute("images", images);
+			return "redirect:/movieAdministration";
+		}
 }

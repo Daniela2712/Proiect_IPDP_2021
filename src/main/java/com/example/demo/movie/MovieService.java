@@ -1,5 +1,8 @@
 package com.example.demo.movie;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -18,5 +21,16 @@ public class MovieService {
 	public void delete(Integer id) {
 		movieRepository.deleteById(id);
 		
+	}
+	public void saveImage(Movie imageGallery) {
+		movieRepository.save(imageGallery);	
+	}
+
+	public List<Movie> getAllActiveImages() {
+		return movieRepository.findAll();
+	}
+
+	public Optional<Movie> getImageById(Integer id) {
+		return movieRepository.findById(id);
 	}
 }

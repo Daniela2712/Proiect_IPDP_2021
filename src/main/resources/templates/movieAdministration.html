@@ -29,17 +29,22 @@
                     <th>Gen</th> 
                     <th>Anul aparitiei</th> 
                     <th>Description</th> 
+                     <th>Picture</th> 
                            
                 </tr>
             </thead>
-            <tbody>
+            <tbody  th:with="count=0">
                 <tr th:each="movie: ${listMovies}">
                     <td th:text="${movie.id}">Movie ID</td>
                     <td th:text="${movie.titlu}">Titlu</td>
                     <td th:text="${movie.gen}">Gen</td>
                     <td th:text="${movie.an_aparitie}">An apritie</td>
                     <td th:text="${movie.description}">Description</td>
+                    <td><img th:src="@{${'/image/display/'+ movie.id}}" 
+                class="card img-fluid" style="width:100px; height:100px" alt=""/></td>
+                 <td><a th:href="@{/image/imageDetails(id=${movie.id})}" class="btn btn-info text-right" target="_self">View</a></td>
               		<td>
+              		
 	              		 <form th:object="${movie}" th:action="@{|/deleteMovie/${movie.id}|}"  th:method="post" >
 	            			 <input onclick="return confirm('Are you sure?')" type="submit" value="Delete"/>
 	       				 </form>
@@ -51,13 +56,46 @@
             </tbody>
         </table>
         
-         <form th:object="${movie}" th:action="@{|/addMovie|}"  th:method="post" >
-         		Titlu <input type="text" th:value="${titlu}" name="a_titlu"/>
-	            Gen <input type="text" th:value="${gen}" name="a_gen"/>
-	           Anul aparitiei <input type="text" th:value="${an_aparitie}" name="a_an_aparitie"/>
-	           Description <input type="text" th:value="${description}" name="a_description"/>
-	            <input type="submit" value="Add"/>
-	     </form>
+	        <form id="form" th:action="@{/image/saveImageDetails}" method="POST" enctype="multipart/form-data">
+				<div class="contact-grids1 w3agile-6">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 contact-form1 form-group">
+							<label class="col-form-label">Title</label>
+							<input type="text" class="form-control" placeholder="Product Name" id="name" th:name="title" required="required">
+							<p id="error_name"></p>
+						</div>
+						<div class="col-md-6 col-sm-6 contact-form1 form-group">
+							<label class="col-form-label">Gen</label>
+							<input type="text" class="form-control" placeholder="Product Name" id="name" th:name="gen" required="required">
+							<p id="error_name"></p>
+						</div>
+						<div class="col-md-6 col-sm-6 contact-form1 form-group">
+							<label class="col-form-label">Anul aparitiei</label>
+							<input type="text" class="form-control" placeholder="Product Name" id="name" th:name="an_aparitie" required="required">
+							<p id="error_name"></p>
+						</div>
+						<div class="col-md-6 col-sm-6 contact-form1 form-group">
+							<label class="col-form-label">Description</label>
+							<textarea class="form-control" placeholder="Product Description" id="description" rows="3" cols="45" th:name="description" required="required"></textarea>
+							<p id="error_description"></p>
+						</div>
+						<div class="col-md-6 col-sm-6 contact-form1 form-group">
+							<label class="col-form-label">Image</label>
+							<input type="file" class="form-control" placeholder="" th:name="image" id="image" required="required">
+							<p id="error_file"></p>
+						</div>
+					</div>
+					
+						<div class="right-w3l col-md-6">
+							<input type="submit" id="submit" class="btn btn-primary form-control" value="Submit">
+							<br><br>
+						</div>
+						<a href="/image/show" style="float:left;" class="btn btn-success text-right">Show All</a>
+				</div>
+				<br>
+				<div id="success" class="text-center" style="color:green;"></div>
+				<div id="error" class="text-center" style="color:red;"></div>
+			</form>
     </div>
 </div>
 </body>

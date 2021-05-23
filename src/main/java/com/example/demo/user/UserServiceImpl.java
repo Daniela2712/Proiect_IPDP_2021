@@ -1,8 +1,13 @@
 package com.example.demo.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.demo.movie.Movie;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,4 +40,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }
+	public Optional<User> getImageProfileById(Integer id) {
+		return userRepository.findById(id);
+	}
+	public void saveImage(User profilePicture) {
+		userRepository.save(profilePicture);	
+	}
 }
