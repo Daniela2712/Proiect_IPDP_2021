@@ -21,14 +21,33 @@
     <div>
     <p th:text="${titlu}"></p>
 
-		<form th:object="${movie}" th:action="@{|/editMovie/${id}|}" th:method="post" >
+		<form th:object="${movie}" th:action="@{|/editMovie/${id}|}" th:method="post" enctype="multipart/form-data">
 	            <input type="text" th:value="${titlu}" name="e_titlu"/>
 	            <input type="text" th:value="${gen}" name="e_gen"/>
 	            <input type="text" th:value="${an_aparitie}" name="e_an_aparitie"/>
 	            <input type="text" th:value="${description}" name="e_description"/>
-           
             <input type="submit" value="Save"/>
         </form>
+         <form id="form" th:action="@{/image/saveImageDetails}" method="POST" enctype="multipart/form-data">
+				<div class="contact-grids1 w3agile-6">
+					<div class="row">
+						
+						<div class="col-md-6 col-sm-6 contact-form1 form-group">
+							<label class="col-form-label">Image</label>
+							<input type="file" class="form-control" placeholder="" th:name="image" id="image" required="required">
+							<p id="error_file"></p>
+						</div>
+					</div>
+					
+						<div class="right-w3l col-md-6">
+							<input type="submit" id="submit" class="btn btn-primary form-control" value="Save image">
+							<br><br>
+						</div>
+				</div>
+				<br>
+				<div id="success" class="text-center" style="color:green;"></div>
+				<div id="error" class="text-center" style="color:red;"></div>
+			</form>
 	</div>
 </div>
 </body>

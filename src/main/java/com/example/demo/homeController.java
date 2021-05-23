@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.movie.Movie;
 import com.example.demo.movie.MovieRepository;
+import com.example.demo.movie.MovieService;
 import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
 import com.example.demo.user.UserService;
@@ -28,10 +29,15 @@ public class homeController  {
 	private UserService userService;
 	@Autowired
 	MovieRepository movieRepository;
+	@Autowired
+	private  MovieService movieService;
+	
 	@RequestMapping("/home")
-	public String showhomePage(Model model) {
+	public String showhomePage(Model model, Model map) {
 		List<Movie> listMovies = movieRepository.findAll();
 	    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+	    List<Movie> images = movieService.getAllActiveImages();
+		map.addAttribute("images", images);
 		return "home.html";
 		
 	}

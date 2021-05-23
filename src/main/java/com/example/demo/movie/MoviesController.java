@@ -69,7 +69,7 @@ public class MoviesController {
 	}
 	@PostMapping("/editMovie/{id}")
 	public String saveEdit(Movie movie, @RequestParam("e_titlu") String titlu, @RequestParam("e_gen") String gen,
-			@RequestParam("e_an_aparitie") Integer an_aparitie, @RequestParam("e_description") String description, @PathVariable("id") Integer id) {
+			@RequestParam("e_an_aparitie") Integer an_aparitie, @RequestParam("e_description") String description, @PathVariable("id") Integer id, @RequestParam("image") MultipartFile file) {
 		Optional<Movie> movie2=movieRepository.findById(id);
 		movie=movie2.get();
 		 movie.setTitlu(titlu);
@@ -77,6 +77,7 @@ public class MoviesController {
 		 movie.setAn_aparitie(an_aparitie);
 		 movie.setDescription(description);
 		 movieService.saveMovie(movie);
+		 
 		 return "redirect:/movieAdministration";
 	}
 	@PostMapping("/addMovie")

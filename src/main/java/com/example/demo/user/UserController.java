@@ -38,8 +38,6 @@ import org.springframework.beans.factory.annotation.Value;
 @RequestMapping("/")
 @ComponentScan(basePackages={"com.example.demo.user"})
 public class UserController {
-	 @Value("${mainstay.web.context:/}")
-	  private String context;
 
 	@Autowired
 	UserRepository userRepository;
@@ -127,22 +125,7 @@ public class UserController {
 			 return "redirect:/profile/{id}";
 	}
 	
-	 @PostMapping("/users/save")
-	    public RedirectView saveUser(User user,
-	            @RequestParam("image") MultipartFile multipartFile) throws IOException {
-	         
-	        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-	        user.setPhotos(fileName);
-	         
-	        User savedUser = userRepository.save(user);
-	 
-	        String uploadDir = "user-photos/" + savedUser.getId();
-	 
-	        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-	         
-	        return new RedirectView("/home", true);
-	    }
-	 //
+	
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
 	 @ResponseBody
 	 @PostMapping("/updatePassword")
