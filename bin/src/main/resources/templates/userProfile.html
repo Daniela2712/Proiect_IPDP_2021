@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>List Users</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{|/js/script.js|}"></script>
+   
+</head>
+<body>
+<div class="container text-center">
+    <div>
+        <form  th:object="${user}" th:action="@{|/dologout/${#request.userPrincipal.principal.id}|}"
+            th:method="put" >
+            <p>
+                Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+            </p>
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+    
+    <div class="card">
+			<div class="card card-body">
+			<div>
+				<form th:action="@{/users/save}" th:object="${user}" method="post" enctype="multipart/form-data">
+				    <div> 
+				   		
+					    <label>Photos: </label>
+					    <input type="file" name="image" accept="image/png, image/jpeg" />		     
+				    </div>
+				    
+				    <input type="submit" value="Save"/>
+				</form>
+				
+			</div>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>First Name</th>
+							<th>Last Name </th>
+							<th>Email</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td th:text="${first_name}"></td>
+							<td th:text="${last_name}"></td>
+							<td th:text="${email}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+    <div>
+
+		<form th:object="${user}" th:action="@{|/editUser/${#request.userPrincipal.principal.id}|}" th:method="post" >
+	            <input type="text" th:value="${first_name}" name="e_first_name"/>
+	            <input type="text" th:value="${last_name}" name="e_last_name"/>
+	            <input type="text" th:value="${email}" name="e_email"/>
+<!--            		<input type="password"  name="e_password"/> -->
+<!--             	<input type="submit" value="Save"/> -->
+        </form>
+        <div>
+  <form th:object="${user}" th:action="@{|/updatePassword|}" th:method="post">
+    <input  th:name="oldpass" type="password" />
+    <input th:name="pass" type="password" />
+    <input  th:name="passConfirm" type="password" />              
+    <span th:name="error" style="display:none">Password mismatch</span>
+                    
+   <button type="submit">Change Password</button>
+</form>
+</div>
+ 
+
+
+	</div>
+</div>
+
+</body>
+</html>

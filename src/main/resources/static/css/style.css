@@ -1,12 +1,14 @@
-body{
-  background-color: #9999ff;
+.body{
+  background-color:#66ccff;
 }
-.homepage{
-  text-align: center;
-  border-style: solid;
-  margin-top:150px;
-  margin-right: 370px;
-  margin-left: 370px;
-  margin-bottom: 500px;
+img{
+	width: 70px;
+	height: 70px;
+}
+table{
+	width: 100%;
+}
 
+h2{
+	text-align: center;
 }
