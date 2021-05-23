@@ -6,8 +6,9 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +30,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import com.example.demo.movie.Movie;
 import com.example.demo.movie.MovieRepository;
+import com.example.demo.movie.MovieService;
+
 import org.springframework.beans.factory.annotation.Value;
 
 @Controller
@@ -44,14 +47,18 @@ public class UserController {
 	private UserService userService;
 	@Autowired 
 	private MovieRepository movieRepository;
+	@Autowired
+	MovieService movieService;
 	
 	
 	@GetMapping("/adminPage")
-	public String showAdminPage(Model model, HttpServletRequest request) { 
+	public String showAdminPage(Model map,Model model, HttpServletRequest request) { 
 	    Principal principal = request.getUserPrincipal();
 	    User user=userRepository.findByEmail(principal.getName());
 	    List<Movie> listMovies = movieRepository.findAll();
 	    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+	    List<Movie> images = movieService.getAllActiveImages();
+		map.addAttribute("images", images);
         user.setEnabled(1);
         user.setFirst_name(user.getFirst_name());
         user.setLast_name(user.getLast_name());
@@ -136,6 +143,7 @@ public class UserController {
 	        return new RedirectView("/home", true);
 	    }
 	 //
+	 private final Logger log = LoggerFactory.getLogger(this.getClass());
 	 @ResponseBody
 	 @PostMapping("/updatePassword")
 	 //@PreAuthorize("hasRole('READ_PRIVILEGE')")
@@ -158,5 +166,4 @@ public class UserController {
 		     return "success";
 	     }
 	 }
-	 
 }

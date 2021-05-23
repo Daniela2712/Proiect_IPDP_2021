@@ -1,11 +1,16 @@
 package com.example.demo.movie;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Movie")
@@ -18,6 +23,15 @@ public class Movie {
 	private String gen;
 	private Integer an_aparitie;
 	private String description;
+	@Lob
+    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+    private byte[] image;
+    
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @Column(name = "create_date", nullable = false)
+//    private Date createDate;
+
+	public Movie() {}
 	public Integer getId() {
 		return id;
 	}
@@ -42,13 +56,24 @@ public class Movie {
 	public void setAn_aparitie(Integer an_aparitie) {
 		this.an_aparitie = an_aparitie;
 	}
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+//	public Date getCreateDate() {
+//		return createDate;
+//	}
+//	public void setCreateDate(Date createDate) {
+//		this.createDate = createDate;
+//	}
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
 	
 	
 }
