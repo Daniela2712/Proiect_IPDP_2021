@@ -2,20 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
-    <title>List Users</title>
+    <title>Movie Edit Page</title>
+    <link rel="stylesheet" href="\css\style.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body  th:style="${'background: #66ccff'} ">
+<div th:fragment="header">
+<table>
+<tr>
+ <th rowspan="2"><img  th:src="@{/Img/logo.png}"/></th>
+ <th rowspan="2" class="titlu"><h2>My cinema</h2></th>
+<th class="buton"><a th:href="@{/adminPage}"><button type="button" name="button" class="button1">Go back</button></a></th>
+</tr>
+<tr>
+ <th class="buton"> <a th:href="@{/home}"><button type="button" name="button" class="button2">Sign out</button></a></th>
+  </tr>
+</table>
+ </div>
+ <br>
+ <br>
 <div class="container text-center">
     <div>
         <form  th:object="${user}" th:action="@{|/dologout/${#request.userPrincipal.principal.id}|}"
             th:method="put" >
-            <p>
+            <h2>
                 Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
-            </p>
-            <input type="submit" value="Sign Out"/>
+            </h2>
+            
         </form>
     </div>
     <div>
@@ -35,6 +50,7 @@
 	            <input type="text" th:value="${gen}" name="e_gen"/>
 	            <input type="text" th:value="${an_aparitie}" name="e_an_aparitie"/>
 	            <input type="text" th:value="${description}" name="e_description"/>
+<<<<<<< HEAD
 						
 						<div class="col-md-6 col-sm-6 contact-form1 form-group">
 							<label class="col-form-label">Image</label>
@@ -52,6 +68,11 @@
 				<div id="success" class="text-center" style="color:green;"></div>
 				<div id="error" class="text-center" style="color:red;"></div>
 			</form>
+=======
+           
+            <input class="button2" type="submit" value="Save"/>
+        </form>
+>>>>>>> Roxi
 	</div>
 </div>
 </body>
