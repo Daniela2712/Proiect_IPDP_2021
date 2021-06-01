@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      
     <head>
+    <link rel="stylesheet" href="css\style.css" type="text/css">
         <title>Spring Security Example </title>
     </head>
-    <body>
+    <body th:style="${'background: #66ccff'} ">
         <div th:if="${param.error}">
             Invalid username and password.
         </div>
