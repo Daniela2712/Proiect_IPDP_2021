@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,9 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	
 	@Transactional(rollbackFor = {RuntimeException.class})
-	public  void saveUser(User user) {
+	public  User saveUser(User user) {
 		user = userRepository.save(user);
+		return user;
 	}
 	 public void delete(Integer id) {
 			userRepository.deleteById(id);
@@ -46,4 +48,16 @@ public class UserServiceImpl implements UserService {
 	public void saveImage(User profilePicture) {
 		userRepository.save(profilePicture);	
 	}
+	@Override
+	public List<User> getUsers() {
+		List<User> users=userRepository.findAll();
+		return users;
+	}
+	@Override
+	public User getUserbyEmail(String email) {
+		User user=userRepository.findByEmail(email);
+		return user;
+	}
+	
+	
 }

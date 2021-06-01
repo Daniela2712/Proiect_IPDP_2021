@@ -33,4 +33,16 @@ public class MovieService {
 	public Optional<Movie> getImageById(Integer id) {
 		return movieRepository.findById(id);
 	}
+
+	public List<Movie> getMovies() {
+		 List<Movie> movies=movieRepository.findAll();
+		return movies;
+	}
+
+	public Movie getMoviebyTitle(String title) {
+		
+		return movieRepository.findByTitle(title);
+	}
+
+	
 }

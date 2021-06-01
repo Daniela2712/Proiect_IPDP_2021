@@ -45,8 +45,8 @@
 	       				 <form th:object="${user}" th:action="@{|/upgradeUser/${user.id}|}"  th:method="get" >
 	            			<select th:field=*{role} >
 	            				<option th:value="${user.role}" th:text="${user.role}"></option>
-    							<option th:value="User" th:text="USER"></option>
-    							<option th:value="Admin" th:text="ADMIN" ></option>
+    							<option th:value="USER" th:text="USER"></option>
+    							<option th:value="ADMIN" th:text="ADMIN" ></option>
 							</select>
 							<input onclick="return confirm('Are you sure?')" type="submit" value="Save"/>
 	       				 </form>	

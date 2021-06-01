@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.movie.Movie;
+import com.example.demo.user.User;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
@@ -23,6 +24,10 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 	 
 	 @Query("SELECT m FROM Movie m WHERE m.an_aparitie = ?1")
 		public List<String> findByAnAparitie(Integer an_aparitie);
+
+	 @Query("SELECT m FROM Movie m WHERE m.titlu = ?1")
+	public Movie findByTitle(String titlu);
+
  
 	 
 } 

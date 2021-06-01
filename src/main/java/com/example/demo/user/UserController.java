@@ -1,14 +1,12 @@
 package com.example.demo.user;
 
-
-import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,14 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
+
 import com.example.demo.movie.Movie;
 import com.example.demo.movie.MovieRepository;
 import com.example.demo.movie.MovieService;
 
-import org.springframework.beans.factory.annotation.Value;
 
 @Controller
 @RequestMapping("/")
@@ -47,7 +42,7 @@ public class UserController {
 	private MovieRepository movieRepository;
 	@Autowired
 	MovieService movieService;
-	
+	private static final Logger logger = LogManager.getLogger(UserController.class);
 	
 	@GetMapping("/adminPage")
 	public String showAdminPage(Model map,Model model, HttpServletRequest request) { 
@@ -63,14 +58,18 @@ public class UserController {
         user.setPassword(user.getPassword());
         user.setEmail(user.getEmail());
         userService.saveUser(user);
+        logger.info("admin page view");
 	    return "adminPage.html";
 	}
 	
 	@RequestMapping(value = {"/userPage"}, method = RequestMethod.GET)
-	public ModelAndView userPage() {
+	public String userPage(Model model1) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("userPage.html");
-		return model;
+		 List<Movie> listMovies = movieRepository.findAll();
+		  model1.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+		logger.info("user page view");
+		return "userPage.html";
 	}
 	
 	@GetMapping("/userAdministration")
@@ -97,6 +96,7 @@ public class UserController {
 	        user.setPassword(user3.getPassword());
 	        user.setEmail(user3.getEmail());
 	        userService.saveUser(user);
+	        logger.info("upgrade user");
 		 return "redirect:/userAdministration";
 	}
 	@GetMapping("/profile/{id}")
@@ -122,14 +122,13 @@ public class UserController {
 			 String encodedPassword = passwordEncoder.encode(password);
 			 user.setPassword(encodedPassword);
 			 userService.saveUser(user);
+			 logger.info("edit user");
 			 return "redirect:/profile/{id}";
 	}
 	
-	
-	 private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	 @ResponseBody
 	 @PostMapping("/updatePassword")
-	 //@PreAuthorize("hasRole('READ_PRIVILEGE')")
 	 public String changeUserPassword(Locale locale, 
 	   @RequestParam(value="pass") String password, 
 	   @RequestParam(value="oldpass") String oldPassword,
@@ -138,14 +137,16 @@ public class UserController {
 	     User user = userService.findUserByEmail(
 	       SecurityContextHolder.getContext().getAuthentication().getName());
 	 
-	     if(!(password.contentEquals(passConfirm)))
-	    	 return "Password mismatch";
-	     
+	     if(!(password.contentEquals(passConfirm))) {
+	    	 logger.warn("Password mismatch");
+	    	 return "go back to profile";
+	     }
 	     else {
 		     if (!userService.checkIfValidOldPassword(user, oldPassword)) {
 		         throw new InvalidOldPasswordException();
 		     }
 		     userService.changeUserPassword(user, password);
+		     logger.info("change password success ");
 		     return "success";
 	     }
 	 }

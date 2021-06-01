@@ -21,16 +21,20 @@
     <div>
     <p th:text="${titlu}"></p>
 
-		<form th:object="${movie}" th:action="@{|/editMovie/${id}|}" th:method="post" enctype="multipart/form-data">
-	            <input type="text" th:value="${titlu}" name="e_titlu"/>
+<!-- 		<form th:object="${movie}" th:action="@{|/editMovie/${id}|}" th:method="post" enctype="multipart/form-data"> -->
+<!-- 	            <input type="text" th:value="${titlu}" name="e_titlu"/> -->
+<!-- 	            <input type="text" th:value="${gen}" name="e_gen"/> -->
+<!-- 	            <input type="text" th:value="${an_aparitie}" name="e_an_aparitie"/> -->
+<!-- 	            <input type="text" th:value="${description}" name="e_description"/> -->
+<!--             <input type="submit" value="Save"/> -->
+<!--         </form> -->
+         <form id="form" th:object="${movie}" th:action="@{/image/saveImageDetails}" method="POST" enctype="multipart/form-data">
+				<div class="contact-grids1 w3agile-6">
+					<div class="row">
+					<input type="text" th:value="${titlu}" name="e_titlu"/>
 	            <input type="text" th:value="${gen}" name="e_gen"/>
 	            <input type="text" th:value="${an_aparitie}" name="e_an_aparitie"/>
 	            <input type="text" th:value="${description}" name="e_description"/>
-            <input type="submit" value="Save"/>
-        </form>
-         <form id="form" th:action="@{/image/saveImageDetails}" method="POST" enctype="multipart/form-data">
-				<div class="contact-grids1 w3agile-6">
-					<div class="row">
 						
 						<div class="col-md-6 col-sm-6 contact-form1 form-group">
 							<label class="col-form-label">Image</label>
