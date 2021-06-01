@@ -3,86 +3,66 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>List Users</title>
-    <link rel="stylesheet" href="css\style.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
-<body th:style="${'background: #66ccff'} ">
-<div th:fragment="header">
-<table>
-<tr>
- <th rowspan="2"><img  th:src="@{/Img/logo.png}"/></th>
- <th rowspan="2" class="titlu"><h2>My cinema</h2></th>
-<th class="buton"><form th:object="${user}" th:action="@{|/profile/${#request.userPrincipal.principal.id}|}"
-            th:method="get" >
-            
-            <input class="button1" type="submit" value="My Profile"/>
-        </form></th>
-</tr>
-<tr>
- <th class="buton"> <form th:object="${user}" th:action="@{|/dologout/${#request.userPrincipal.principal.id}|}"
-            th:method="put" >
-          
-            <input class="button2" type="submit" value="Sign Out"/>
-        </form>
-        </th>
-        </table>
- </div>
- <br>
- <br>
+<body>
 <div class="container text-center">
-     <h2>
+    <div>
+        <form th:object="${user}" th:action="@{|/dologout/${#request.userPrincipal.principal.id}|}"
+            th:method="put" >
+            <p>
                 Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
-            </h2>
-            <br>
-            <br>
-     <table>
-     <tr>
-     <th>
+            </p>
+            <p>ha ha ha ha </p>
+            <h1> ha ha ha </h1>
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+   
       <form th:object="${user}" th:action="@{/userAdministration}"
             th:method="get" >
             
-            <input class="button1" type="submit" value="User Administration"/>
+            <input type="submit" value="User Administration"/>
         </form>
-        </th>
-        <th>
+        
          <form th:object="${user}" th:action="@{/movieAdministration}"
             th:method="get" >
             
-            <input class="button1" type="submit" value="Movie Administration"/>
+            <input type="submit" value="Movie Administration"/>
         </form>
-        </th>
-    
-       
-        </table>
-        <br>
-        <br>
+         <form th:object="${user}" th:action="@{|/profile/${#request.userPrincipal.principal.id}|}"
+            th:method="get" >
+            
+            <input type="submit" value="My Profile"/>
+        </form>
+        <form th:object="${user}" th:action="@{/movieAdministration}"
+            th:method="get" >
+            
+            <input type="submit" value="Movie Administration"/>
+        </form>
         <table class="table table-striped table-bordered">
-            <thead >
+            <thead class="thead-dark">
                 <tr>                  
-<<<<<<< HEAD
 
                     <th>Filme actuale >2019</th>          
 
                     <th>Titlu(Filme actuale >2019)</th>          
 
-=======
-                    <th colspan="4" class="titlufilm">Filme</th>          
->>>>>>> Roxi
                 </tr>
             </thead>
-            
             <tbody>
                 
             </tbody>
             
              <thead>
             <tr>
-                <th>Nr.</th>
+                <th>SR. No.</th>
                 <th>Name</th>
                 <th>Image</th>
                 <th>Description</th>
+              
             </tr>
             
         </thead>
@@ -93,7 +73,7 @@
                 <td><img th:src="@{${'/image/display/'+ movie.id}}" 
                 class="card img-fluid" style="width:300px" alt=""/></td>
                  <td th:text="${movie.description}"></td> 
-               <td><a th:href="@{/image/imageDetails(id=${movie.id})}" class="button1"  target="_self">View</a></td>
+               <td><a th:href="@{/image/imageDetails(id=${movie.id})}" class="btn btn-info text-right" target="_self">View</a></td>
             </tr>
         </tbody>
         </table>
