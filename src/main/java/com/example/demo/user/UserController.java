@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.example.demo.movie.Movie;
 import com.example.demo.movie.MovieRepository;
 import com.example.demo.movie.MovieService;
@@ -63,9 +61,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = {"/userPage"}, method = RequestMethod.GET)
-	public String userPage(Model model1) {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("userPage.html");
+	public String userPage(Model model1, Model model) {
 		 List<Movie> listMovies = movieRepository.findAll();
 		  model1.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
 		logger.info("user page view");
@@ -112,15 +108,12 @@ public class UserController {
 	}
 	@PostMapping("/editUser/{id}")
 	public String saveEdit(User user, @RequestParam("e_first_name") String first_name, @RequestParam("e_last_name") String last_name,
-			@RequestParam("e_email") String email,@RequestParam("e_password") String password, @PathVariable("id") Integer id){
+			@RequestParam("e_email") String email, @PathVariable("id") Integer id){
 			Optional<User> user2=userRepository.findById(id);
 			 user=user2.get();
 			 user.setFirst_name(first_name);
 			 user.setLast_name(last_name);
 			 user.setEmail(email);	
-			 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			 String encodedPassword = passwordEncoder.encode(password);
-			 user.setPassword(encodedPassword);
 			 userService.saveUser(user);
 			 logger.info("edit user");
 			 return "redirect:/profile/{id}";

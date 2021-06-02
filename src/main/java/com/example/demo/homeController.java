@@ -24,7 +24,7 @@ import com.example.demo.user.UserRepository;
 import com.example.demo.user.UserService;
 @Controller
 
-public class homeController implements ApplicationRunner   {
+public class homeController   {
 	
 	@Autowired
 	UserRepository userRepository;
@@ -35,14 +35,7 @@ public class homeController implements ApplicationRunner   {
 	@Autowired
 	private  MovieService movieService;
 	private static final Logger logger = LogManager.getLogger(homeController.class);
-	 @Override
-	    public void run(ApplicationArguments applicationArguments) throws Exception {
-	        logger.debug("Debugging log");
-	        logger.info("Info log");
-	        logger.warn("Hey, This is a warning!");
-	        logger.error("Oops! We have an Error. OK");
-	        logger.fatal("FATALLLLLL");
-	    }
+	
 	@RequestMapping("/home")
 	public String showhomePage(Model model, Model map) {
 		List<Movie> listMovies = movieRepository.findAll();

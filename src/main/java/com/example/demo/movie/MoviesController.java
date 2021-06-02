@@ -37,7 +37,7 @@ public class MoviesController {
 	@Autowired
 	MovieService movieService;
 	
-	private static final Logger logger = LogManager.getLogger(MoviesController.class);
+	private static final Logger log = LogManager.getLogger(MoviesController.class);
 	
 	@GetMapping("/movies")
 	public String ShowMovies(Model model) {
@@ -73,7 +73,7 @@ public class MoviesController {
 	}
 	@PostMapping("/editMovie/{id}")
 	public String saveEdit(Movie movie, @RequestParam("e_titlu") String titlu, @RequestParam("e_gen") String gen,
-			@RequestParam("e_an_aparitie") Integer an_aparitie, @RequestParam("e_description") String description, @PathVariable("id") Integer id, @RequestParam("image") MultipartFile file) {
+			@RequestParam("e_an_aparitie") Integer an_aparitie, @RequestParam("e_description") String description, @PathVariable("id") Integer id ) {
 		Optional<Movie> movie2=movieRepository.findById(id);
 		movie=movie2.get();
 		 movie.setTitlu(titlu);
@@ -100,19 +100,16 @@ public class MoviesController {
 
 		//private final Logger log = LoggerFactory.getLogger(this.getClass());
 		@PostMapping("/image/saveImageDetails")
-		public String createProduct( Model model,Movie movie, HttpServletRequest request
+		public String createProduct( Model model, HttpServletRequest request
 				,final @RequestParam("image") MultipartFile file,@RequestParam("title") String titlu, @RequestParam("gen") String gen,
 				@RequestParam("an_aparitie") Integer an_aparitie, @RequestParam("description") String description) {
 			try {
-				
-			
-				
 				String uploadDirectory = System.getProperty("user.dir") + uploadFolder;
 				String uploadDirectory1 = request.getServletContext().getRealPath(uploadFolder);
-				logger.info("uploadDirectory:: " + uploadDirectory1);
+				log.info("uploadDirectory:: " + uploadDirectory1);
 				String fileName = file.getOriginalFilename();
 				String filePath = Paths.get(uploadDirectory1, fileName).toString();
-				logger.info("FileName: " + file.getOriginalFilename());
+				log.info("FileName: " + file.getOriginalFilename());
 				if (fileName == null || fileName.contains("..")) {
 					model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
 					//return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
@@ -122,30 +119,30 @@ public class MoviesController {
 				try {
 					File dir = new File(uploadDirectory1);
 					if (!dir.exists()) {
-						logger.info("Folder Created");
+						log.info("Folder Created");
 						dir.mkdirs();
 					}
 					BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
 					stream.write(file.getBytes());
 					stream.close();
 				} catch (Exception e) {
-					logger.info("in catch");
+					log.info("in catch");
 					e.printStackTrace();
 				}
 				byte[] imageData = file.getBytes();
-				Movie movie2=movieRepository.findByTitle(titlu);
-				movie.setTitlu(titlu);
-				movie.setGen(gen);
-				movie.setAn_aparitie(an_aparitie);
-				movie.setDescription(description);
-				movie.setImage(imageData);
-				movieService.saveImage(movie);
-				 movieService.saveMovie(movie);
-				logger.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
+				Movie imageGallery = new Movie();
+				imageGallery.setTitlu(titlu);
+				imageGallery.setGen(gen);
+				imageGallery.setAn_aparitie(an_aparitie);
+				imageGallery.setDescription(description);
+				imageGallery.setImage(imageData);
+				movieService.saveImage(imageGallery);
+				log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
 				return "redirect:/movieAdministration";
 			} catch (Exception e) {
 				e.printStackTrace();
-				logger.error("Exception: " + e);
+				log.info("Exception: " + e);
+				//return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 				return "home.html";
 			}
 		}
@@ -154,7 +151,7 @@ public class MoviesController {
 		@ResponseBody
 		void showImage(@PathVariable("id") Integer id, HttpServletResponse response, Optional<Movie> imageGallery)
 				throws ServletException, IOException {
-			logger.info("Id :: " + id);
+			log.info("Id :: " + id);
 			imageGallery = movieService.getImageById(id);
 			response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
 			response.getOutputStream().write(imageGallery.get().getImage());
@@ -164,23 +161,26 @@ public class MoviesController {
 		@GetMapping("/image/imageDetails")
 		String showProductDetails(@RequestParam("id") Integer id, Optional<Movie> imageGallery, Model model) {
 			try {
-				logger.info("Id :: " + id);
+				log.info("Id :: " + id);
 				if (id != 0) {
 					imageGallery = movieService.getImageById(id);
 				
-					logger.info("products :: " + imageGallery);
+					log.info("products :: " + imageGallery);
 					if (imageGallery.isPresent()) {
 						model.addAttribute("id", imageGallery.get().getId());
 						model.addAttribute("description", imageGallery.get().getDescription());
+						model.addAttribute("titlu", imageGallery.get().getTitlu());
+						model.addAttribute("an_aparitie", imageGallery.get().getAn_aparitie());
+						model.addAttribute("gen", imageGallery.get().getGen());
 						return "imagedetails";
 					}
-					return "redirect:/home";
+					return "redirect:/movieAdministration";
 				}
-			return "redirect:/home";
+			return "redirect:/movieAdministration";
 			} catch (Exception e) {
 				e.printStackTrace();
-				logger.error("Exception: " + e);
-				return "redirect:/home";
+				log.error("Exception: " + e);
+				return "redirect:/movieAdministration";
 			}	
 		}
 
@@ -190,4 +190,52 @@ public class MoviesController {
 			map.addAttribute("images", images);
 			return "redirect:/movieAdministration";
 		}
+		@GetMapping("/action")
+		public String actionview(Model model) {
+			 List<Movie> listMovies = movieRepository.findAll();
+			    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+			return "action.html";
+}
+		@GetMapping("/adventure")
+		public String adventureview(Model model) {
+			 List<Movie> listMovies = movieRepository.findAll();
+			    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+			return "adventure.html";
+}		
+		@GetMapping("/animation")
+		public String animationview(Model model) {
+			 List<Movie> listMovies = movieRepository.findAll();
+			    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+			return "animation.html";
+}
+		@GetMapping("/comedy")
+		public String comedyview(Model model) {
+			 List<Movie> listMovies = movieRepository.findAll();
+			    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+			return "comedy.html";
+}
+		@GetMapping("/drama")
+		public String dramaview(Model model) {
+			 List<Movie> listMovies = movieRepository.findAll();
+			    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+			return "drama.html";
+}
+		@GetMapping("/horror")
+		public String horrorview(Model model) {
+			 List<Movie> listMovies = movieRepository.findAll();
+			    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+			return "horror.html";
+}
+		@GetMapping("/love")
+		public String loveview(Model model) {
+			 List<Movie> listMovies = movieRepository.findAll();
+			    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+			return "love.html";
+}
+		@GetMapping("/userProfile")
+		public String usersview(Model model) {
+			 List<Movie> listMovies = movieRepository.findAll();
+			    model.addAttribute("listMovies", listMovies).addAllAttributes(listMovies);
+			return "userProfile.html";
+}
 }

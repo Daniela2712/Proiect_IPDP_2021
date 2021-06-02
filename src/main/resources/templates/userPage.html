@@ -21,7 +21,11 @@
 <th class="buton"><a th:href="@{/home}"><button type="button" name="button" class="button1">Log out</button></a></th>
 </tr>
 <tr>
- <th class="buton"> <a th:href="@{/userProfile}"><button type="button" name="button" class="button2">My profile</button></a></th>
+ <th class="buton"><form th:object="${user}" th:action="@{|/profile/${#request.userPrincipal.principal.id}|}"
+            th:method="get" >
+            
+            <input class="button1" type="submit" value="My Profile"/>
+        </form>
   </tr>
 </table>
  </div>
@@ -52,64 +56,17 @@
 <br>
 <div class="container" style="border:3px solid #006699" >
 <!-- row 1 -->
-<div class="row">
+<div class="row" th:each = "movie : ${listMovies}">
 <div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
+<img class="user" th:src="@{${'/image/display/'+ movie.id}}" alt="Northern Lights">
 </div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
-</div>
-</div>
-<br>
-<!-- row 2 -->
-<div class="row">
-<div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
-</div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
+<div class="col" >
+<h6 th:text="${movie.titlu}"></h6>
+<p th:text="${movie.an_aparitie}"></p>
+<p th:text="${movie.description}"></p>
 </div>
 </div>
-<br>
-<!-- row 3 -->
-<div class="row">
-<div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
-</div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
-</div>
-</div>
-<br>
-<!-- row 4 -->
-<div class="row">
-<div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
-</div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
-</div>
-</div>
-<br>
-<!-- row 5 -->
-<div class="row">
-<div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
-</div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
-</div>
-</div>  
+<br>  
 </div>   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>  
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  

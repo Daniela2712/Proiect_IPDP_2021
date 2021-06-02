@@ -28,19 +28,20 @@
 				<span>I</span>mage
 				<span>D</span>etails</h3><br>
 			<!-- //tittle heading -->
+			<div class="container" style="border:3px solid #006699" >
 			<div class="row">
 				<div class="col-lg-5 col-md-8 single-right-left ">
 					<div class="grid images_3_of_2">
 						<div class="flexslider">
 						<div class="thumb-image">
 							<img th:src="@{${'/image/display/'+id}}" 
-							 class="img img-responsive img-fluid" alt=""> 
+							 class="img img-responsive img-fluid" alt=""  style="width:300px; height:400px"> 
 						</div>
 							<div class="clearfix"></div>
 						</div>
 					</div>
 				</div>
-
+<!--
 				<div class="col-lg-7 single-right-left simpleCart_shelfItem">
 					Name: <span th:text="${titlu}" class="mb-3"></span>
 					
@@ -48,9 +49,17 @@
 						Description: <span th:text="${description}" class="my-sm-4 my-3"> 
 						</span>
 					</div><br>
-					<a href="/image/show">Go Back</a>
-					&emsp;<a href="/">Go Home</a>
+					
 				</div>
+-->				
+<div class="col" >
+<h3 th:text="${titlu}"></h3>
+<p th:text="${gen}"></p>
+<p th:text="${an_aparitie}"></p>
+<p th:text="${description}"></p>
+</div>
+</div>				
+<!-- -->
 			</div>
 		</div>
 	</div>

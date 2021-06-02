@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>User Page</title>
+<title>Love</title>
   <link rel="stylesheet" href="\css\style.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
@@ -33,14 +33,15 @@
     <table class="nav navbar-nav">
     <tr class="button1">   
       <th class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Category<span class="caret"></span></a>  
-        <ul class="dropdown-menu">  
+        <ul class="dropdown-menu">
+        <li><a th:href="@{/userPage}">Homepage</a></li>
           <li><a th:href="@{/action}">Action</a></li>  
           <li><a th:href="@{/adventure}">Adventure</a></li>
           <li><a th:href="@{/animation}">Animation</a></li>   
           <li><a th:href="@{/comedy}">Comedy</a></li>
           <li><a th:href="@{/drama}">Drama</a></li>
           <li><a th:href="@{/horror}">Horror</a></li>
-          <li><a th:href="@{/love}">Love</a></li> 
+           
         </ul>  
       </th>
       </tr>
@@ -50,67 +51,20 @@
 </nav>  
 <br>
 <br>
-<div class="container" style="border:3px solid #006699" >
+<div class="container" th:each = "movie : ${listMovies}" style="border:3px solid #006699" >
 <!-- row 1 -->
-<div class="row">
+<div class="row" th:if='${movie.gen == "love"}' >
 <div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
+<img class="user" th:src="@{${'/image/display/'+ movie.id}}" alt="Northern Lights">
 </div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
-</div>
-</div>
-<br>
-<!-- row 2 -->
-<div class="row">
-<div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
-</div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
+<div class="col" >
+<h6 th:text="${movie.titlu}"></h6>
+<p th:text="${movie.an_aparitie}"></p>
+<p th:text="${movie.description}"></p>
 </div>
 </div>
-<br>
-<!-- row 3 -->
-<div class="row">
-<div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
-</div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
-</div>
-</div>
-<br>
-<!-- row 4 -->
-<div class="row">
-<div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
-</div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
-</div>
-</div>
-<br>
-<!-- row 5 -->
-<div class="row">
-<div class="col">
-<img class="user" th:src="@{/Img/troli.jpg}" alt="Northern Lights">
-</div>
-<div class="col">
-<h6 th:with="${movie.titlu}"></h6>
-<p th:with="${movie.year}"></p>
-<p th:with="${movie.description}"></p>
-</div>
+<br>  
 </div>  
-</div>   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>  
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 </body>

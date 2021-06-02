@@ -26,10 +26,6 @@ public class Movie {
 	@Lob
     @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
     private byte[] image;
-    
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @Column(name = "create_date", nullable = false)
-//    private Date createDate;
 
 	public Movie() {}
 	public Integer getId() {
@@ -62,12 +58,7 @@ public class Movie {
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
-//	public Date getCreateDate() {
-//		return createDate;
-//	}
-//	public void setCreateDate(Date createDate) {
-//		this.createDate = createDate;
-//	}
+
 	public String getDescription() {
 		return description;
 	}

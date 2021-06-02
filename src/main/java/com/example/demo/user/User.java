@@ -13,24 +13,8 @@ public class User{
     private Integer id;
 	private String role;
 	@Column(nullable = true, length = 64)
-    private String photos;
-	//String PhotosImagePath;
-	@Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] profilePicture;
+  
 	
-	public String getPhotos() {
-		return photos;
-	}
-	public void setPhotos(String photos) {
-		this.photos = photos;
-	}
-	public byte[] getProfilePicture() {
-		return profilePicture;
-	}
-	public void setProfilePicture(byte[] profilePicture) {
-		this.profilePicture = profilePicture;
-	}
 	public String getRole() {
 		return role;
 	}

@@ -1,6 +1,5 @@
 package com.example.demo.user;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.example.demo.movie.Movie;
 
 @Component
-
 public interface UserService {
 	
 
